@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Medicine Alternatives</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            flex-direction: column; /* Allow flash message to sit above container */
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            width: 100%;
+            max-width: 500px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-bottom: 15px;
+            font-weight: 600;
+            color: #555;
+        }
+        input[type="text"], input[type="file"] {
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 1em;
+        }
+        button {
+            padding: 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.1em;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .or-divider {
+            text-align: center;
+            margin: 20px 0;
+            color: #aaa;
+            font-weight: bold;
+        }
+        a {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+        /* Style for the flash message */
+        .flash.error {
+            padding: 15px;
+            margin-bottom: 20px; /* Space between message and main container */
+            width: 100%;
+            max-width: 500px;
+            box-sizing: border-box; /* Ensures padding doesn't add to width */
+            border-radius: 8px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- This block will display error messages from the backend -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        <h2>Find Medicine Alternatives</h2>
+        
+        <!-- Text Search Form (submits to /upload) -->
+        <form action="/upload" method="post">
+            <label for="medicine">Search by Medicine Name:</label>
+            <input type="text" id="medicine" name="medicine" placeholder="e.g., Paracetamol 500mg" required>
+            <button type="submit">Search</button>
+        </form>
+
+        <div class="or-divider">OR</div>
+
+        <!-- Image Upload Form (also submits to /upload) -->
+        <form action="/upload" method="post" enctype="multipart/form-data">
+            <label for="prescription_image">Upload Prescription Image:</label>
+            <input type="file" id="prescription_image" name="prescription_image" accept="image/*" required>
+            <button type="submit">Upload & Analyze</button>
+        </form>
+        <a href="/">← Back to Home</a>
+    </div>
+</body>
+</html>
